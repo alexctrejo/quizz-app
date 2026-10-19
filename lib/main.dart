@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttering/models/category.dart';
 import 'package:fluttering/models/option.dart';
 import 'package:fluttering/models/question.dart';
+import 'package:fluttering/models/score.dart';
+import 'package:fluttering/screens/quiz_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final quizzCategories = [
+    final quizCategories = [
 
       Category(
         id: 'cat_history',
@@ -57,10 +59,20 @@ class MyApp extends StatelessWidget {
       title: 'Quizz App',
       home: Scaffold(
         appBar: AppBar(
+          leading: const Icon(Icons.quiz),
           title: const Text('Quizz App'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                // Acción para abrir la configuración
+              },
+            ),
+          ],
+          
         ),
         body: Center(
-          child: Categories(quizzCategories: quizzCategories),
+          child: Categories(quizCategories: quizCategories),
         ),
       ),
     );
@@ -70,17 +82,17 @@ class MyApp extends StatelessWidget {
 class Categories extends StatelessWidget {
   const Categories({
     super.key,
-    required this.quizzCategories,
+    required this.quizCategories,
   });
 
-  final List<Category> quizzCategories;
+  final List<Category> quizCategories;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        for (var categorias in quizzCategories)
+        for (var category in quizCategories)
           TextButton.icon(
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
@@ -88,10 +100,12 @@ class Categories extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               textStyle: const TextStyle(fontSize: 18.0),
             ),
-            icon: Icon(categorias.iconPath),
-            label: Text('- ${categorias.name}'),
+            icon: Icon(category.iconPath),
+            label: Text('- ${category.name}'),
             onPressed: () {
-              print('Categoría seleccionada: ${categorias.name}');
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => QuizScreen(category: category, score: Score(count: 0)),
+              ));
             },
         ),
       ],
