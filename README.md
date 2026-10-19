@@ -1,6 +1,6 @@
 # fluttering
 
-A new Flutter project.
+Quizz App by Alexander C.T.
 
 ## Getting Started
 
